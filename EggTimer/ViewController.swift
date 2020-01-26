@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
   
@@ -17,6 +18,7 @@ class ViewController: UIViewController {
   var cookTime = 0
   var secondsPassed = 0
   var cookingTimer: Timer?
+  var player: AVAudioPlayer?
   
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var progressView: UIProgressView!
@@ -47,7 +49,15 @@ class ViewController: UIViewController {
       let percentageComplete = Float(secondsPassed) / Float(cookTime)
       progressView.progress = percentageComplete
     } else {
+      playSound()
       titleLabel.text = "DONE!"
     }
+  }
+  
+  func playSound() {
+    let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+  
+    player = try! AVAudioPlayer(contentsOf: url!)
+    player!.play()
   }
 }
